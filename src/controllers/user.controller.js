@@ -8,8 +8,10 @@ export const deleteOne = async ( request, response) => {
 }; 
 
 export const findAll = async (_request, response) => {
-    response.json({
-      posts: await UserModel.findAll(),
+    response
+    .status(200)
+    .json({
+      users: await UserModel.findAll(),
     });
   }
 
@@ -17,7 +19,9 @@ export const findAll = async (_request, response) => {
     const id = Number(request.params.id);
     const user= await UserModel.findById(id)
 
-    response.json({
+    response
+    .status(200)
+    .json({
       user,
     })
   }
@@ -25,14 +29,18 @@ export const findAll = async (_request, response) => {
   export const getProfile = async(request, response)=>{
       const{id} = request.params;
       const profile = await UserModel.getProfile(id);
-      response.json({profile})
+      response
+      .status(200)
+      .json({profile})
   }
 
   export const getPost = async (request, response) => {
     const {id} = request.params;
     const posts = await UserModel.getPost(id);
 
-    response.json({posts})
+    response
+    .status(200)
+    .json({posts})
 }
 
 export const updateProfile  = async (request, response) => {
@@ -44,7 +52,9 @@ export const updateProfile  = async (request, response) => {
         lastName, 
     });
 
-    response.json({profile : Profile });
+    response
+    .status(200)
+    .json({profile : Profile });
 };
   
 

@@ -27,11 +27,7 @@ export const updateOne = async ({ id, message }) => {
   });
 }
 
-export const deleteOne = async (id) => {
-  return prisma.post.delete({
-    where: { id },
-  });
-}
+
 
 export const findOneById = async (id, select) => {
   return prisma.post.findUnique({
@@ -42,4 +38,10 @@ export const findOneById = async (id, select) => {
 
 export const findAll = async () => {
   return prisma.post.findMany();
+}
+
+export const deleteOne = async (id) => {
+  return prisma.post.delete({
+    where: { id },
+  });
 }

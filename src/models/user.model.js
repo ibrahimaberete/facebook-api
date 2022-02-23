@@ -1,13 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-export const deleteOne = async (userId) =>{
-prisma.profile.delete({
-    where: { 
-        userId
-    },
+export const createOne = async ({ email,
+  password }) =>
+prisma.user.create({
+  data: {
+      email,
+      password, 
+  },
 }); 
-}
 
 export const findByCredentials = ({ email, password }) =>
   prisma.User.findUnique({
@@ -22,14 +23,7 @@ export const findById = ({ id }) =>
     where: { id },
   });
 
-export const createOne = async ({ email,
-    password }) =>
-  prisma.user.create({
-    data: {
-        email,
-        password, 
-    },
-  });
+
   export const findAll = () => prisma.user.findMany();
   
 export const getProfile= async(id)=>{
@@ -57,5 +51,14 @@ export const updateProfile = async ({userId, firstName, lastName}) => {
           }, 
           });
 }
+
+export const deleteOne = async (userId) =>{
+  prisma.profile.delete({
+      where: { 
+          userId
+      },
+  }); 
+  }
+  
 
 

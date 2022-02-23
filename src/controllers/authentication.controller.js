@@ -1,9 +1,14 @@
 import jwt from 'jsonwebtoken';
 import * as UserModel from '../models/user.model';
-
 import { HttpStatus,HttpException } from '../errors/HttpException.error';
+import { ErrorBadRequest } from "../errors/BadRequest.error";
+
+
 export const login = async (request, response) => {
   const { email, password } = request.body;
+  if (email == undefined || password == undefined) {
+    throw new ErrorBadRequest();
+  }
 
   const user = await UserModel.findByCredentials({ email, password }, { id: true, email: true });
   if (!user) {
@@ -16,6 +21,7 @@ export const login = async (request, response) => {
 
 export const register = async (request, response) => {
   const { email, password } = request.body;
+  if (!email || !password) throw new ErrorBadRequest();
   const user = await UserModel.createOne({ email, password });
 
   response.status(201).json({ user });
