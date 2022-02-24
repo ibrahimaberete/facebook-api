@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import base64url from 'base64url';
+
 const prisma = new PrismaClient();
 
 export const createOne = async ({ email,
@@ -23,8 +25,18 @@ export const findById = ({ id }) =>
     where: { id },
   });
 
+export const findMany = async ({ skip, cursor, limit }) => {
+  const users = await prisma.user.findMany({
+    skip,
+    ...(cursor) ? { cursor }:{},
+    take: limit,
+  });
 
-  export const findAll = () => prisma.user.findMany();
+  return users.map((user) => ({
+    ...user,
+    cursor: base64url.encode(JSON.stringify({ id: users.id })),
+  }));
+}
   
 export const getProfile= async(id)=>{
     return prisma.user.findUnique({

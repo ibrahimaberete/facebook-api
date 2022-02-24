@@ -1,3 +1,4 @@
+import base64url from 'base64url';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
@@ -27,8 +28,6 @@ export const updateOne = async ({ id, message }) => {
   });
 }
 
-
-
 export const findOneById = async (id, select) => {
   return prisma.post.findUnique({
     where: { id },
@@ -36,8 +35,17 @@ export const findOneById = async (id, select) => {
   });
 }
 
-export const findAll = async () => {
-  return prisma.post.findMany();
+export const findMany = async ({ skip, cursor, limit }) => {
+  const posts = await prisma.post.findMany({
+    skip,
+    ...(cursor) ? { cursor }:{},
+    take: limit,
+  });
+
+  return posts.map((post) => ({
+    ...post,
+    cursor: base64url.encode(JSON.stringify({ id: post.id })),
+  }));
 }
 
 export const deleteOne = async (id) => {

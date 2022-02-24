@@ -7,6 +7,6 @@ api.patch('/:id/profile', UserController.updateProfile);
 api.delete('/:id', UserController.deleteOne);
 api.get('/:id/profile', UserController.getProfile)
 api.get('/:id/posts', UserController.getPost)
-api.get('/', UserController.findAll);
+api.get('/', UserController.paginateKeyset);
 
 export default api;
