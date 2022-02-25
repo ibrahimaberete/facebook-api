@@ -23,6 +23,7 @@ export const register = async (request, response) => {
   const { email, password } = request.body;
   if (!email || !password) throw new ErrorBadRequest();
   const user = await UserModel.createOne({ email, password });
+  await UserModel.createProfile(user.id, "", "");
 
   response.status(201).json({ user });
 }

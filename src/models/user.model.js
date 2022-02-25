@@ -12,14 +12,15 @@ prisma.user.create({
   },
 }); 
 
-export const findByCredentials = ({ email, password }) =>
-  prisma.User.findUnique({
+export const findByCredentials = ({ email, password }, select) => {
+  return prisma.user.findFirst({
     where: {
       email,
-      
+      password,
     },
+    select,
   });
-
+}
 export const findById = ({ id }) =>
   prisma.user.findUnique({
     where: { id },
@@ -51,6 +52,14 @@ export const getPost = async (id) => {
         select : {Posts: true},
     })
 }
+export const createProfile = (userId, firstName, lastName) =>
+  prisma.profile.create({
+    data: {
+      firstName,
+      lastName,
+      userId : userId,
+    }
+  });
 
 export const updateProfile = async ({userId, firstName, lastName}) => {
   return prisma.profile.update({
@@ -64,12 +73,18 @@ export const updateProfile = async ({userId, firstName, lastName}) => {
           });
 }
 
-export const deleteOne = async (userId) =>{
-  prisma.profile.delete({
-      where: { 
-          userId
-      },
-  }); 
+/*export const deleteOne = async ( request, response) => {
+  const {id} = request.params;
+   await UserModel.deleteOne(id);
+
+  response.status(204).end();
+};*/
+  
+
+  export const deleteUser = async(id)=> {
+    return prisma.user.delete({
+      where:{id},
+    });
   }
   
 

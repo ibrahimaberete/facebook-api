@@ -1,11 +1,5 @@
 import * as UserModel from '../models/user.model';
 
-export const deleteOne = async ( request, response) => {
-    const {id} = request.params;
-     await UserModel.deleteOne(id);
-
-    response.status(204).end();
-}; 
 
   export const paginateKeyset = async (request, response) => {
     const { API_URL = 'http://localhost:8081/api' } = process.env;
@@ -64,17 +58,25 @@ export const deleteOne = async ( request, response) => {
 }
 
 export const updateProfile  = async (request, response) => {
-    const { id } = request.params;
-    const { firstName, lastName } = request.body;
-    const Profile = await UserModel.updateProfile({
-        userId: id,
-        firstName,
-        lastName, 
-    });
+  const { id } = request.params;
+  const { firstName, lastName } = request.body;
+  const Profile = await UserModel.updateProfile({
+      userId: id,
+      firstName,
+      lastName, 
+  });
 
-    response
-    .status(200)
-    .json({profile : Profile });
+  response
+  .status(200)
+  .json({profile : Profile });
 };
+
+export const deleteUser = async (request, response) => {
+  const {id} = (request.params);
+  
+  await UserModel.deleteUser(id);
+
+  response.status(204).end();
+}
   
 

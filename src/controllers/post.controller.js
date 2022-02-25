@@ -65,6 +65,9 @@ export const updateOne = async (request, response) => {
 
 export const deleteOne = async (request, response) => {
   const id = Number(request.params.id); 
+  const Checkpost = await PostModel.getPost(postId);
+    if(!Checkpost)
+        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
   await PostModel.deleteOne(id);
   response.status(204).end();
 }
