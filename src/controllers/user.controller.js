@@ -1,4 +1,5 @@
 import * as UserModel from '../models/user.model';
+import { ErrorNotFound } from "../errors/NotFound.error";
 
 
   export const paginateKeyset = async (request, response) => {
@@ -32,7 +33,6 @@ import * as UserModel from '../models/user.model';
   export const findById = async (request, response, next) => {
     const id = Number(request.params.id);
     const user= await UserModel.findById(id)
-
     response
     .status(200)
     .json({
@@ -43,6 +43,7 @@ import * as UserModel from '../models/user.model';
   export const getProfile = async(request, response)=>{
       const{id} = request.params;
       const profile = await UserModel.getProfile(id);
+      if (!profile) return next(new ErrorNotFound());
       response
       .status(200)
       .json({profile})
@@ -60,6 +61,8 @@ import * as UserModel from '../models/user.model';
 export const updateProfile  = async (request, response) => {
   const { id } = request.params;
   const { firstName, lastName } = request.body;
+  if (!firstName || !lastName) return new ErrorBadRequest();
+
   const Profile = await UserModel.updateProfile({
       userId: id,
       firstName,

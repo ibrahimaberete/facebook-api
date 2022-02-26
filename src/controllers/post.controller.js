@@ -1,8 +1,10 @@
-import * as PostModel from '../models/post.model';
 import { ErrorNotFound } from "../errors/NotFound.error";
+import { ErrorBadRequest } from '../errors/BadRequest.error';
+import * as PostModel from '../models/post.model';
 
-export const createOne = async ({ body, user }, response) => {
+export const createOne = async ({ body, user }, response, next) => {
   const { message } = body;
+  if (!message) return new ErrorBadRequest();
   const post = await PostModel.createOne({
     message,
     authorId: user.id,
@@ -51,13 +53,14 @@ export const paginateKeyset = async (request, response) => {
 export const updateOne = async (request, response) => {
   const { id } = request.params;
   const { message } = request.body;
+  if (!message) return next(new ErrorNotFound());
 
   const post = await PostModel.updateOne({
     id:Number(id),
    message,
   });
 
-  if (!post) return next(new ErrorNotFound());
+  
   response
   .status(200)
   .json({ post });
@@ -65,9 +68,6 @@ export const updateOne = async (request, response) => {
 
 export const deleteOne = async (request, response) => {
   const id = Number(request.params.id); 
-  const Checkpost = await PostModel.getPost(postId);
-    if(!Checkpost)
-        throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
   await PostModel.deleteOne(id);
   response.status(204).end();
 }
