@@ -4,7 +4,7 @@ import { HttpStatus,HttpException } from '../errors/HttpException.error';
 import { ErrorBadRequest } from "../errors/BadRequest.error";
 
 
-export const login = async (request, response) => {
+export const LoginDto = async (request, response) => {
   const { email, password } = request.body;
   if (email == undefined || password == undefined) {
     throw new ErrorBadRequest();
@@ -19,7 +19,7 @@ export const login = async (request, response) => {
   response.json({ token, user });
 }
 
-export const register = async (request, response) => {
+export const RegisterDto = async (request, response) => {
   const { email, password } = request.body;
   if (!email || !password) throw new ErrorBadRequest();
   const user = await UserModel.createOne({ email, password });

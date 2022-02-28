@@ -2,7 +2,7 @@ import { ErrorNotFound } from "../errors/NotFound.error";
 import { ErrorBadRequest } from '../errors/BadRequest.error';
 import * as PostModel from '../models/post.model';
 
-export const createOne = async ({ body, user }, response) => {
+export const CreatePostDto = async ({ body, user }, response) => {
   const { message } = body;
   if (!message) return new ErrorBadRequest();
   const post = await PostModel.createOne({
@@ -50,7 +50,7 @@ export const paginateKeyset = async (request, response) => {
     });
 }
 
-export const updateOne = async (request, response) => {
+export const UpdatePostDto = async (request, response) => {
   const { id } = request.params;
   const { message } = request.body;
   if (!message) return next(new ErrorNotFound());

@@ -3,7 +3,7 @@ import * as AuthenticationController from '../../controllers/authentication.cont
 
 const api = Router();
 
-api.post('/login', AuthenticationController.login);
-api.post('/register', AuthenticationController.register);
+api.post('/login', AuthenticationController.LoginDto);
+api.post('/register', AuthenticationController.RegisterDto);
 
 export default api;
