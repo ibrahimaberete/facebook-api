@@ -57,6 +57,14 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 ```
+## Installation
+
+```bash
+$ yarn add -D nodemon @babel/core @babel/cli @babel/node @babel/preset-env prisma
+$ yarn add @prisma/client base64url dotenv express
+$ yarn install
+$ yarn prisma migrate dev
+```
 
 ## API Routes
 
