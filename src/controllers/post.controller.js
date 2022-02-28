@@ -2,7 +2,7 @@ import { ErrorNotFound } from "../errors/NotFound.error";
 import { ErrorBadRequest } from '../errors/BadRequest.error';
 import * as PostModel from '../models/post.model';
 
-export const createOne = async ({ body, user }, response, next) => {
+export const createOne = async ({ body, user }, response) => {
   const { message } = body;
   if (!message) return new ErrorBadRequest();
   const post = await PostModel.createOne({
